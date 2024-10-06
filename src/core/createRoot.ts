@@ -1,7 +1,7 @@
 import ReactReconciler from "react-reconciler";
 import { renderAll, resizeCanvas, getClickCoordinates, debounce, hitTest } from "./renderUtils";
 import { Container, RootState } from "./types";
-import { hostConfig } from "./CanvasReconciler";
+import { hostConfig } from "./hostConfig";
 
 const reconciler = ReactReconciler(hostConfig);
 
