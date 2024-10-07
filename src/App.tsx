@@ -301,7 +301,7 @@ const useGameLogic = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [handleMouseMove]);
 
-  useFrame((_delta, stop) => {
+  useFrame((delta, stop) => {
     if (gameOver || gameWon) return stop();
 
     if (paddleRef.current) {
@@ -313,8 +313,11 @@ const useGameLogic = () => {
       const ball = ballRef.current;
       const ballRadius = 10;
 
-      ball.x += ballVelocity.current.dx;
-      ball.y += ballVelocity.current.dy;
+      const adjustedDx = (ballVelocity.current.dx * delta) / 10;
+      const adjustedDy = (ballVelocity.current.dy * delta) / 10;
+
+      ball.x += adjustedDx;
+      ball.y += adjustedDy;
 
       if (ball.x + ballRadius * 2 > window.innerWidth || ball.x < 0) {
         ballVelocity.current.dx = -ballVelocity.current.dx;
