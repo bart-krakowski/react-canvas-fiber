@@ -301,8 +301,11 @@ const useGameLogic = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [handleMouseMove]);
 
-  useFrame(() => {
-    if (gameOver || gameWon) return null;
+  useFrame((_delta, stop) => {
+    if (gameOver || gameWon) {
+      stop();
+      return;
+    }
 
     if (paddleRef.current) {
       const paddleWidth = 100;
