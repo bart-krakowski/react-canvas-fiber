@@ -303,8 +303,7 @@ const useGameLogic = () => {
 
   useFrame((_delta, stop) => {
     if (gameOver || gameWon) {
-      stop();
-      return;
+      return stop();
     }
 
     if (paddleRef.current) {
