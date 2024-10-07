@@ -302,9 +302,7 @@ const useGameLogic = () => {
   }, [handleMouseMove]);
 
   useFrame((_delta, stop) => {
-    if (gameOver || gameWon) {
-      return stop();
-    }
+    if (gameOver || gameWon) return stop();
 
     if (paddleRef.current) {
       const paddleWidth = 100;
