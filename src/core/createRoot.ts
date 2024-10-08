@@ -34,7 +34,6 @@ export const createRoot = (canvas: HTMLCanvasElement) => {
 
   const handleResize = () => {
     resizeCanvas(canvas, state);
-    // state.invalidate();
   };
 
   const root = reconciler.createContainer(
