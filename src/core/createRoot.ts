@@ -34,7 +34,7 @@ export const createRoot = (canvas: HTMLCanvasElement) => {
 
   const handleResize = () => {
     resizeCanvas(canvas, state);
-    state.invalidate();
+    // state.invalidate();
   };
 
   const root = reconciler.createContainer(
@@ -58,7 +58,7 @@ export const createRoot = (canvas: HTMLCanvasElement) => {
   window.addEventListener('resize', debouncedHandleResize);
   canvas.addEventListener('click', handleCanvasClick);
 
-  handleResize();
+  resizeCanvas(canvas, state);
 
   return {
     render: (element: React.ReactNode) => {

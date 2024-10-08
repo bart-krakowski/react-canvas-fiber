@@ -310,7 +310,7 @@ export const hostConfig: HostConfig<
    * We implement it using the browser's `setTimeout` function.
    */
   scheduleTimeout(fn, delay) {
-    return window.setTimeout(fn, delay);
+    return setTimeout(fn, delay);
   },
 
   /**
@@ -335,13 +335,17 @@ export const hostConfig: HostConfig<
   // -------------------
 
   /**
-   * Appends a child instance to a parent instance after the initial render phase.
-   * @param parentInstance - The parent instance.
-   * @param child - The child instance to append.
+   * Adds a child instance to a parent instance during the commit phase.
    *
-   * Mutates the `parentInstance`'s `children` array and sets the child's `parent` reference.
-   * Also calls `renderInstance` to render the child onto the canvas.
-   * This method happens during the commit phase.
+   * This method appends the `child` to the `parentInstance`'s `children` array,
+   * sets the child's `parent` reference to the `parentInstance`, and calls `renderInstance`
+   * to draw the child onto the canvas relative to its parent.
+   *
+   * @param parentInstance - The parent instance to which the child will be appended.
+   * @param child - The child instance to add to the parent.
+   *
+   * By updating the tree structure and rendering the child, this ensures that
+   * the canvas accurately reflects the current state of the virtual tree.
    */
   appendChild(parentInstance, child) {
     parentInstance.children.push(child);
@@ -350,7 +354,7 @@ export const hostConfig: HostConfig<
     const container = parentInstance.container;
     const parentX = parentInstance.props.x ?? 0;
     const parentY = parentInstance.props.y ?? 0;
-    // Render the child instance, considering the parent's position.
+
     renderInstance(child, container, parentX, parentY);
   },
 
@@ -365,7 +369,6 @@ export const hostConfig: HostConfig<
    */
   appendChildToContainer(container, child) {
     container.children.push(child);
-    // Render the child instance onto the canvas.
     renderInstance(child, container);
   },
 
@@ -417,7 +420,6 @@ export const hostConfig: HostConfig<
     if (child) {
       parentInstance.children = parentInstance.children.filter((x) => x !== child);
       child.parent = null;
-      // Invalidate the container to schedule a re-render.
       parentInstance.container.invalidate();
     }
   },
@@ -434,7 +436,6 @@ export const hostConfig: HostConfig<
     const index = container.children.indexOf(child);
     if (index !== -1) {
       container.children.splice(index, 1);
-      // Invalidate the container to schedule a re-render.
       container.invalidate();
     }
   },
@@ -448,18 +449,15 @@ export const hostConfig: HostConfig<
    * This method happens during the commit phase.
    */
   commitUpdate(instance, updatePayload) {
-    // Update the instance's `props` with the changes.
     instance.props = {
       ...instance.props,
       ...(updatePayload as Props),
     };
 
-    // Update the instance's `attributes`, which are used for rendering.
     instance.attributes = {
       ...instance.attributes,
       ...updatePayload,
     };
-    // Invalidate the container to schedule a re-render.
     instance.container.invalidate();
   },
 
@@ -509,6 +507,11 @@ export const hostConfig: HostConfig<
 
   /**
    * Called when a scope is updated.
+   * 
+   * Scope in React is a concept used for managing event handling and propagation.
+   * It's particularly useful in custom renderers for defining how events should
+   * bubble up through the component tree. However, in this canvas renderer,
+   * we don't utilize scopes for event handling.
    *
    * Scopes are used for event propagation in some renderers.
    * Since we don't use scopes, this is a no-op.
@@ -535,14 +538,3 @@ export const hostConfig: HostConfig<
     return null;
   },
 };
-
-
-
-// Canvas Creation and Root
-
-
-
-// Canvas Component
-
-
-
