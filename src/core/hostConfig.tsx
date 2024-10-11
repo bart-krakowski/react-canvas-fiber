@@ -46,7 +46,6 @@ export const hostConfig: HostConfig<
   /**
    * Indicates that the renderer does not support hydration.
    * Hydration is the process of attaching React's virtual tree to an existing host tree, like server-rendered HTML.
-   * Since our canvas renderer doesn't deal with server-rendered content or pre-existing canvas drawings, we don't support hydration.
    * We set `supportsHydration` to `false`.
    */
   supportsHydration: false,
