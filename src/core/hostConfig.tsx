@@ -387,6 +387,7 @@ export const hostConfig: HostConfig<
     if (index !== -1) {
       parentInstance.children.splice(index, 0, child);
       child.parent = parentInstance;
+      parentInstance.container.invalidate();
     }
   },
 
@@ -404,6 +405,7 @@ export const hostConfig: HostConfig<
     const index = container.children.indexOf(beforeChild);
     if (index !== -1) {
       container.children.splice(index, 0, child);
+      container.invalidate();
     }
   },
 

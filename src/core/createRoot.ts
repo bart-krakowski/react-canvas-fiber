@@ -57,7 +57,7 @@ export const createRoot = (canvas: HTMLCanvasElement) => {
   window.addEventListener('resize', debouncedHandleResize);
   canvas.addEventListener('click', handleCanvasClick);
 
-  resizeCanvas(canvas, state);
+  handleResize();
 
   return {
     render: (element: React.ReactNode) => {
